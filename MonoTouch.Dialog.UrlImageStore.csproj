@@ -9,8 +9,6 @@
     <ProjectTypeGuids>{E613F3A2-FE9C-494F-B74E-F63BCB86FEA6};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <RootNamespace>MonoTouch.Utility.ImageStore</RootNamespace>
-    <AssemblyName>MonoTouch.Utility.ImageStore</AssemblyName>
-    <MtouchSdkVersion>3.2</MtouchSdkVersion>
     <MtouchMinimumOS>3.0</MtouchMinimumOS>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
   </PropertyGroup>
@@ -24,6 +22,8 @@
     <WarningLevel>4</WarningLevel>
     <MtouchDebug>True</MtouchDebug>
     <MtouchLink>None</MtouchLink>
+    <AssemblyName>MonoTouch.Utility.ImageStore</AssemblyName>
+    <MtouchSdkVersion>3.2</MtouchSdkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>none</DebugType>
@@ -33,6 +33,8 @@
     <WarningLevel>4</WarningLevel>
     <MtouchDebug>False</MtouchDebug>
     <MtouchLink>None</MtouchLink>
+    <AssemblyName>MonoTouch.Dialog.UrlImageStore</AssemblyName>
+    <MtouchSdkVersion>3.0</MtouchSdkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
     <DebugSymbols>true</DebugSymbols>
@@ -44,6 +46,8 @@
     <WarningLevel>4</WarningLevel>
     <MtouchDebug>True</MtouchDebug>
     <CodesignKey>iPhone Developer</CodesignKey>
+    <AssemblyName>MonoTouch.Utility.ImageStore</AssemblyName>
+    <MtouchSdkVersion>3.2</MtouchSdkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>none</DebugType>
@@ -53,6 +57,40 @@
     <WarningLevel>4</WarningLevel>
     <MtouchDebug>False</MtouchDebug>
     <CodesignKey>iPhone Developer</CodesignKey>
+    <AssemblyName>MonoTouch.Dialog.UrlImageStore</AssemblyName>
+    <MtouchSdkVersion>3.0</MtouchSdkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AdHoc|iPhoneSimulator' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\iPhoneSimulator\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <MtouchDebug>False</MtouchDebug>
+    <AssemblyName>MonoTouch.Utility.ImageStore</AssemblyName>
+    <MtouchLink>None</MtouchLink>
+    <MtouchSdkVersion>3.2</MtouchSdkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AdHoc|iPhone' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\iPhone\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <MtouchDebug>False</MtouchDebug>
+    <AssemblyName>MonoTouch.Utility.ImageStore</AssemblyName>
+    <CodesignKey>iPhone Developer</CodesignKey>
+    <MtouchSdkVersion>3.2</MtouchSdkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AppStore|iPhone' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin</OutputPath>
+    <WarningLevel>4</WarningLevel>
+    <MtouchDebug>False</MtouchDebug>
+    <AssemblyName>MonoTouch.Dialog.UrlImageStore</AssemblyName>
+    <CodesignKey>iPhone Developer</CodesignKey>
+    <MtouchSdkVersion>3.0</MtouchSdkVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

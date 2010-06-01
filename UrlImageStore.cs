@@ -20,6 +20,7 @@ namespace MonoTouch.Dialog.UrlImageStore
 		public delegate UIImage ProcessImageDelegate(UIImage img, TKey id);
 		
 		readonly static string baseDir = Path.Combine (Environment.GetFolderPath (Environment.SpecialFolder.Personal), "..");
+		//readonly static string baseDir = Environment.GetFolderPath (Environment.SpecialFolder.Personal).Replace("/Library", "/Documents");
 		string picDir;
 		
 		const int maxWorkers = 4;
@@ -38,11 +39,26 @@ namespace MonoTouch.Dialog.UrlImageStore
 			
 			cache = new LRUCache<TKey, UIImage>(capacity);
 			queue = new Queue<UrlImageStoreRequest<TKey>>();
+		
+			if (!Directory.Exists(Path.Combine(baseDir, "Library/Caches/Pictures/")))
+				Directory.CreateDirectory(Path.Combine(baseDir, "Library/Caches/Pictures/"));
 			
 			picDir = Path.Combine(baseDir, "Library/Caches/Pictures/" + storeName);
 			
-			if (!Directory.Exists("Library/Caches/Pictures/"))
-				Directory.CreateDirectory("Library/Caches/Pictures/");
+		}
+		
+		public void DeleteCachedFiles()
+		{
+			string[] files = new string[]{};
+			
+			try { files = Directory.GetFiles(picDir); }
+			catch { }
+			
+			foreach (string file in files)
+			{
+				try { File.Delete(file); }
+				catch { }
+			}
 		}
 
 		public ProcessImageDelegate ProcessImage
@@ -80,6 +96,14 @@ namespace MonoTouch.Dialog.UrlImageStore
 			}
 
 			return result;
+		}
+		
+		public bool Exists(TKey id)
+		{
+			lock (cache)
+			{
+				return cache.ContainsKey(id);	
+			}
 		}
 
 		public UIImage RequestImage(TKey id, string url, IUrlImageUpdated<TKey> notify)
