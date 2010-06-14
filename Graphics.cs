@@ -4,7 +4,7 @@ using MonoTouch.Foundation;
 using MonoTouch.CoreFoundation;
 using MonoTouch.UIKit;
 
-namespace MonoTouch.Dialog.UrlImageStore
+namespace MonoTouch.UrlImageStore
 {
 	public static class Graphics
 	{

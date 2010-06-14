@@ -8,7 +8,7 @@ using MonoTouch.CoreFoundation;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 
-namespace MonoTouch.Dialog.UrlImageStore
+namespace MonoTouch.UrlImageStore
 {
 	public interface IUrlImageUpdated<TKey>
 	{
