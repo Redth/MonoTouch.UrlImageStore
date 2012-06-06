@@ -29,7 +29,7 @@ namespace MonoTouch.UrlImageStore
 						
 		static UrlImageStore()
 		{
-			baseDir  = Path.Combine (Environment.GetFolderPath (Environment.SpecialFolder.Personal), "..");
+			baseDir  = Path.Combine (Environment.GetFolderPath (Environment.SpecialFolder.MyDocuments));
 			
 			opQueue = new NSOperationQueue();
 			opQueue.MaxConcurrentOperationCount = 4;
@@ -49,25 +49,43 @@ namespace MonoTouch.UrlImageStore
 			
 			cache = new LRUCache<TKey, UIImage>(capacity);
 			
-			if (!Directory.Exists(Path.Combine(baseDir, "Library/Caches/Pictures/")))
-				Directory.CreateDirectory(Path.Combine(baseDir, "Library/Caches/Pictures/"));
+			if (!Directory.Exists(Path.Combine(baseDir, "Caches/Pictures/")))
+				Directory.CreateDirectory(Path.Combine(baseDir, "Caches/Pictures/"));
 			
-			picDir = Path.Combine(baseDir, "Library/Caches/Pictures/" + storeName);
+			picDir = Path.Combine(baseDir, "Caches/Pictures/" + storeName);
+			
+			if (!Directory.Exists(picDir))
+				Directory.CreateDirectory(picDir);
 			
 		}
 		
 		public void DeleteCachedFiles()
 		{
-			string[] files = new string[]{};
+		//string[] files = new string[]{};
 			
-			try { files = Directory.GetFiles(picDir); }
+			try { this.cache.Clear(); }
 			catch { }
 			
-			foreach (string file in files)
-			{
-				try { File.Delete(file); }
-				catch { }
+			try 
+			{ 
+				Directory.Delete(picDir, true);
+//				files = Directory.GetFiles(picDir); 
 			}
+			catch (Exception ex)
+			{ 
+				Console.WriteLine("Failed to get files: " + ex.ToString());
+			}
+			
+			//foreach (string file in files)
+			//{
+			//	Console.WriteLine("Deleting: " + file);
+			//	
+			//	try { File.Delete(file); }
+			//	catch (Exception ex)
+			//	{ 
+			//	Console.WriteLine("Failed to delete: " + file + " -> " + ex.ToString());
+			//	}
+			//}
 		}
 
 		public ProcessImageDelegate ProcessImage
@@ -121,14 +139,19 @@ namespace MonoTouch.UrlImageStore
 			lock (cache)
 			{		
 				if (cache.ContainsKey(id))
+				{
+					//Console.WriteLine("Loading from Memory Cache: " + id);
 					return cache[id];
+				}
 			}
 			
 			//Next check for a saved file, and load it into cache and return it if found
-			string picFile = picDir + id + ".png";
+			string picFile = picDir + "/" + id + ".png";
 			if (File.Exists(picFile))
 			{
 				UIImage img = null;
+				
+				//Console.WriteLine("Loading from Cache: " + picFile);
 				
 				try { img = UIImage.FromFileUncached(picFile); }
 				catch { }
@@ -155,7 +178,8 @@ namespace MonoTouch.UrlImageStore
 			opQueue.AddOperation(delegate {
 				var img = UIImage.LoadFromData(NSData.FromUrl(NSUrl.FromString(url)));
 			
-				img = this.ProcessImage(img, id);
+				if (this.ProcessImage != null)
+	 				img = this.ProcessImage(img, id);
 			
 				this.AddToCache(id, img);
 			
@@ -215,7 +239,7 @@ namespace MonoTouch.UrlImageStore
 			}
 			
 		
-			string file = picDir + id + ".png";
+			string file = picDir + "/" + id + ".png";
 			
 			if (!File.Exists(file))
 			{
@@ -226,6 +250,8 @@ namespace MonoTouch.UrlImageStore
 					img.AsPNG().Save(file, false, out err); 
 					if (err != null)
 						Console.WriteLine(err.Code.ToString() + " - " + err.LocalizedDescription);
+					
+					//Console.WriteLine("Saved to Cache: " + file);
 				}
 				catch (Exception ex) 
 				{
